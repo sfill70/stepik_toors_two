@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+    <!-- HERO -->
+    {% block content %}
+        <div class="jumbotron text-center mt-4">
+            <h1 class="display-4">Всякие туры</h1>
+            <p class="lead">Для тех, кого отвлекают дома</p>
+            <p class="mt-5 w-50 mx-auto">Лучшие направления,где никто не будет вам мешать сидеть на берегу и изучать
+                программирование, дизайн, разработку игр и управление продуктами</p>
+        </div>
+
+        <div class="row mt-5" data-test="cards">
+            {% for key, value in tours.items %}
+                {#            {{ value.departure }}#}
+                <div class="col-4" data-test="card">
+                    <div class="card mb-3">
+                        <img src="{{ value.picture }}"
+                             style=" float: left; margin-right: 10px; margin-bottom: 10px; width: 100%; height: 200px; overflow: hidden;"
+                             class="card-img-top img-fluid" data-test="picture" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ value.title }}</h5>
+                            <p class="card-text">{{ value.description|truncatechars:150 }}</p>
+                            <a href="{% url 'tours:tour' key %}" class="btn btn-sm btn-primary" data-test="tourlink">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endblock %}
