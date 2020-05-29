@@ -1,30 +1,21 @@
 from django.shortcuts import render
 from logging import getLogger
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import View
 from tours import data
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponseNotFound
 import random
 import plural_ru
 
-
 _logger = getLogger(__name__)
 
-def custom_handler404(request, exception=None):
+
+def custom_handler404(request, _=None):
     return HttpResponseNotFound('Ой, что то сломалось... !')
 
+
 def get_town(departure):
-    town = ''
-    if departure == 'msk':
-        town = "Москвы"
-    elif departure == 'spb':
-        town = "Питера"
-    elif departure == 'kazan':
-        town = "Казани"
-    elif departure == 'nsk':
-        town = "Новосибирска"
-    elif departure == 'ekb':
-        town = "Екатеринбурга"
-    return town
+    town = {'msk': "Москвы", 'spb': "Питера", 'kazan': "Казани", 'nsk': "Екатеринбурга"}
+    return town.get(departure)
 
 
 class MainView(View):
@@ -33,15 +24,13 @@ class MainView(View):
         tours = {i: data.tours[i] for i in
                  random.sample(range(1, len(data.tours)), 6)}
         context = {
-            'tours': tours,
-        }
+            'tours': tours,}
         return render(request, 'index.html', context)
 
 
 class DepartureView(View):
 
     def get(self, request, departure, *args, **kwargs):
-
         set_departure = {value.get('departure') for (key, value) in data.tours.items()}
         if departure not in set_departure:
             return custom_handler404(request)
@@ -75,7 +64,6 @@ class DepartureView(View):
             'min_nights_str': min_nights_str,
             'max_nights_str': max_nights_str,
         }
-
 
         # надо в setting.py 'level': 'DEBUG' тогда видно переменные
         # _logger.info(array_nights)
