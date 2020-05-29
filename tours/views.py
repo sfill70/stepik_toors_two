@@ -14,7 +14,7 @@ def custom_handler404(request, _=None):
 
 
 def get_town(departure):
-    town = {'msk': "Москвы", 'spb': "Питера", 'kazan': "Казани", 'nsk': "Екатеринбурга"}
+    town = {'msk': "Москвы", 'spb': "Питера", 'kazan': "Казани", 'nsk': "Новосибирска", 'ekb': "Екатеринбурга"}
     return town.get(departure)
 
 
